@@ -1,0 +1,480 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>NICLIY - Gerador de Sensi Free Fire</title>
+    <link rel="manifest" href="manifest.json">
+    <meta name="theme-color" content="#8a2be2">
+    <style>
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            transition: background-color 0.5s ease, color 0.3s ease;
+        }
+
+        :root {
+            --primary-color: #8a2be2;
+            --bg-color: #0f0f15;
+            --card-bg: #1a1a24;
+            --text-color: #ffffff;
+            --accent-color: #00ff88;
+        }
+
+        body {
+            background-color: var(--bg-color);
+            color: var(--text-color);
+            min-height: 100vh;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            padding: 20px;
+        }
+
+        header {
+            text-align: center;
+            margin-bottom: 25px;
+            width: 100%;
+            max-width: 600px;
+        }
+
+        .logo {
+            font-size: 2.8rem;
+            font-weight: 900;
+            letter-spacing: 3px;
+            color: var(--primary-color);
+            text-shadow: 0 0 15px var(--primary-color);
+            margin-bottom: 5px;
+        }
+
+        .subtitle {
+            font-size: 0.85rem;
+            color: #a0a0b0;
+            margin-bottom: 15px;
+        }
+
+        .notice-box {
+            background: rgba(255, 255, 255, 0.05);
+            border-left: 3px solid var(--primary-color);
+            padding: 10px 15px;
+            font-size: 0.8rem;
+            color: #ccc;
+            border-radius: 4px;
+            text-align: left;
+            margin-bottom: 20px;
+        }
+
+        .container {
+            width: 100%;
+            max-width: 600px;
+            background-color: var(--card-bg);
+            border-radius: 16px;
+            padding: 20px;
+            box-shadow: 0 8px 32px rgba(0, 0, 0, 0.5);
+            border: 1px solid rgba(255, 255, 255, 0.1);
+        }
+
+        .btn-group {
+            display: flex;
+            gap: 15px;
+            margin-bottom: 20px;
+        }
+
+        .btn {
+            flex: 1;
+            padding: 14px;
+            border: none;
+            border-radius: 10px;
+            font-size: 1rem;
+            font-weight: bold;
+            cursor: pointer;
+            background: var(--primary-color);
+            color: #fff;
+            box-shadow: 0 4px 15px rgba(0, 0, 0, 0.2);
+            transition: transform 0.2s, background-color 0.3s;
+        }
+
+        .btn:hover {
+            transform: translateY(-2px);
+            filter: brightness(1.2);
+        }
+
+        .btn-secondary {
+            background: #2a2a38;
+            color: #fff;
+        }
+
+        .search-box {
+            width: 100%;
+            padding: 12px 16px;
+            border-radius: 8px;
+            border: 1px solid #333;
+            background: #0f0f15;
+            color: #fff;
+            font-size: 0.95rem;
+            margin-bottom: 15px;
+            outline: none;
+        }
+
+        .search-box:focus {
+            border-color: var(--primary-color);
+        }
+
+        .list-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(130px, 1fr));
+            gap: 10px;
+            max-height: 350px;
+            overflow-y: auto;
+            padding-right: 5px;
+        }
+
+        .list-item {
+            background: #232332;
+            padding: 12px;
+            border-radius: 8px;
+            text-align: center;
+            cursor: pointer;
+            font-size: 0.9rem;
+            border: 1px solid transparent;
+        }
+
+        .list-item:hover {
+            border-color: var(--primary-color);
+            background: #2c2c3e;
+        }
+
+        .sensi-panel {
+            display: none;
+            flex-direction: column;
+            gap: 12px;
+        }
+
+        .sensi-row {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            background: #232332;
+            padding: 12px 16px;
+            border-radius: 8px;
+        }
+
+        .sensi-label {
+            font-size: 0.95rem;
+            font-weight: 600;
+        }
+
+        .sensi-value {
+            font-size: 1.1rem;
+            font-weight: bold;
+            color: var(--accent-color);
+        }
+
+        .nav-header {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            margin-bottom: 15px;
+        }
+
+        .back-btn {
+            background: none;
+            border: none;
+            color: var(--primary-color);
+            font-size: 1.5rem;
+            cursor: pointer;
+        }
+
+        .hidden {
+            display: none !important;
+        }
+
+        /* Custom Scrollbar */
+        ::-webkit-scrollbar {
+            width: 6px;
+        }
+        ::-webkit-scrollbar-track {
+            background: #101018;
+        }
+        ::-webkit-scrollbar-thumb {
+            background: var(--primary-color);
+            border-radius: 3px;
+        }
+    </style>
+</head>
+<body>
+
+    <header>
+        <div class="logo">NICLIY</div>
+        <div class="subtitle">Gerador de Sensibilidade Personalizada para Free Fire</div>
+        <div class="notice-box">
+            Esta ferramenta destina-se apenas à organização e consulta de perfis de configuração por dispositivo. Não garante vantagens ou performance perfeita no jogo.
+        </div>
+    </header>
+
+    <div class="container">
+        <!-- Step 1: Select Platform -->
+        <div id="step-platform">
+            <h3 style="margin-bottom: 15px; text-align: center;">Escolha a Plataforma</h3>
+            <div class="btn-group">
+                <button class="btn" onclick="selectPlatform('android')">Android</button>
+                <button class="btn" onclick="selectPlatform('ios')">iOS</button>
+            </div>
+        </div>
+
+        <!-- Step 2: Select Brand (Android only) -->
+        <div id="step-brands" class="hidden">
+            <div class="nav-header">
+                <button class="back-btn" onclick="goBack('step-platform')">←</button>
+                <h3>Selecione a Marca</h3>
+            </div>
+            <input type="text" id="search-brand" class="search-box" placeholder="Pesquisar marca..." oninput="filterBrands()">
+            <div class="list-grid" id="brands-list"></div>
+        </div>
+
+        <!-- Step 3: Select Model -->
+        <div id="step-models" class="hidden">
+            <div class="nav-header">
+                <button class="back-btn" id="back-from-models" onclick="goBack('step-brands')">←</button>
+                <h3 id="models-title">Selecione o Modelo</h3>
+            </div>
+            <input type="text" id="search-model" class="search-box" placeholder="Pesquisar modelo..." oninput="filterModels()">
+            <div class="list-grid" id="models-list"></div>
+        </div>
+
+        <!-- Step 4: Sensi Panel -->
+        <div id="step-sensi" class="hidden">
+            <div class="nav-header">
+                <button class="back-btn" onclick="goBack('step-models')">←</button>
+                <h3 id="sensi-device-name">Sensibilidade Gerada</h3>
+            </div>
+
+            <div class="sensi-panel" id="sensi-panel" style="display: flex;">
+                <div class="sensi-row">
+                    <span class="sensi-label">Geral</span>
+                    <span class="sensi-value" id="val-geral">0</span>
+                </div>
+                <div class="sensi-row">
+                    <span class="sensi-label">Ponto Vermelho (Red Dot)</span>
+                    <span class="sensi-value" id="val-reddot">0</span>
+                </div>
+                <div class="sensi-row">
+                    <span class="sensi-label">Mira 2x</span>
+                    <span class="sensi-value" id="val-2x">0</span>
+                </div>
+                <div class="sensi-row">
+                    <span class="sensi-label">Mira 4x</span>
+                    <span class="sensi-value" id="val-4x">0</span>
+                </div>
+                <div class="sensi-row">
+                    <span class="sensi-label">AWM</span>
+                    <span class="sensi-value" id="val-awm">0</span>
+                </div>
+                <div class="sensi-row">
+                    <span class="sensi-label">Olhadinha</span>
+                    <span class="sensi-value" id="val-olhadinha">0</span>
+                </div>
+                <div class="sensi-row">
+                    <span class="sensi-label" id="dpi-label">DPI / Ciclos</span>
+                    <span class="sensi-value" id="val-dpi">0</span>
+                </div>
+
+                <div class="btn-group" style="margin-top: 15px;">
+                    <button class="btn" onclick="generateSensi()">Gerar Nova Sensi</button>
+                    <button class="btn btn-secondary" onclick="copySensi()">Copiar Configuração</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        const database = {
+            android: {
+                "Samsung": ["Galaxy A01", "Galaxy A02", "Galaxy A03", "Galaxy A04", "Galaxy A05", "Galaxy A10", "Galaxy A11", "Galaxy A12", "Galaxy A13", "Galaxy A14", "Galaxy A15", "Galaxy A20", "Galaxy A21s", "Galaxy A22", "Galaxy A23", "Galaxy A24", "Galaxy A25", "Galaxy A30", "Galaxy A31", "Galaxy A32", "Galaxy A33", "Galaxy A34", "Galaxy A35", "Galaxy A50", "Galaxy A51", "Galaxy A52", "Galaxy A53", "Galaxy A54", "Galaxy A55", "Galaxy A70", "Galaxy A71", "Galaxy A72", "Galaxy A73", "Galaxy S9", "Galaxy S10", "Galaxy S20", "Galaxy S20 FE", "Galaxy S21", "Galaxy S21 FE", "Galaxy S22", "Galaxy S23", "Galaxy S23 FE", "Galaxy S24", "Galaxy S24 Ultra", "Galaxy Z Flip 3", "Galaxy Z Flip 4", "Galaxy Z Flip 5", "Galaxy Z Fold 3", "Galaxy Z Fold 4", "Galaxy Z Fold 5", "Galaxy M12", "Galaxy M13", "Galaxy M14", "Galaxy M23", "Galaxy M34", "Galaxy M54"],
+                "Xiaomi": ["Mi 9", "Mi 9T", "Mi 10", "Mi 10T", "Mi 11", "Mi 11 Ultra", "Xiaomi 12", "Xiaomi 12 Lite", "Xiaomi 12 Pro", "Xiaomi 13", "Xiaomi 13 Lite", "Xiaomi 13 Pro", "Xiaomi 13T", "Xiaomi 14", "Xiaomi 14 Pro", "Xiaomi 14 Ultra"],
+                "Redmi": ["Redmi 9", "Redmi 9A", "Redmi 9C", "Redmi 9T", "Redmi 10", "Redmi 10A", "Redmi 10C", "Redmi 12", "Redmi 12C", "Redmi 13", "Redmi 13C", "Redmi Note 8", "Redmi Note 8 Pro", "Redmi Note 9", "Redmi Note 9S", "Redmi Note 9 Pro", "Redmi Note 10", "Redmi Note 10S", "Redmi Note 10 Pro", "Redmi Note 11", "Redmi Note 11S", "Redmi Note 11 Pro", "Redmi Note 12", "Redmi Note 12S", "Redmi Note 12 Pro", "Redmi Note 13", "Redmi Note 13 Pro", "Redmi Note 13 Pro+", "Redmi Note 14", "Redmi Note 14 Pro"],
+                "POCO": ["POCO C40", "POCO C65", "POCO M3", "POCO M4", "POCO M4 Pro", "POCO M5", "POCO M5s", "POCO M6", "POCO M6 Pro", "POCO X3", "POCO X3 NFC", "POCO X3 Pro", "POCO X4 Pro", "POCO X5", "POCO X5 Pro", "POCO X6", "POCO X6 Pro", "POCO F3", "POCO F4", "POCO F4 GT", "POCO F5", "POCO F5 Pro", "POCO F6", "POCO F6 Pro"],
+                "Motorola": ["Moto G8", "Moto G8 Power", "Moto G9 Play", "Moto G9 Plus", "Moto G10", "Moto G20", "Moto G30", "Moto G31", "Moto G32", "Moto G41", "Moto G50", "Moto G51", "Moto G52", "Moto G53", "Moto G54", "Moto G60", "Moto G71", "Moto G72", "Moto G73", "Moto G82", "Moto G84", "Edge 20", "Edge 20 Pro", "Edge 30", "Edge 30 Neo", "Edge 30 Pro", "Edge 30 Ultra", "Edge 40", "Edge 40 Neo", "Edge 50 Pro", "Edge 50 Ultra"],
+                "Realme": ["Realme C11", "Realme C21Y", "Realme C30", "Realme C33", "Realme C35", "Realme C53", "Realme C55", "Realme C67", "Realme 7", "Realme 8", "Realme 8 Pro", "Realme 9", "Realme 9 Pro+", "Realme 10", "Realme 11", "Realme 11 Pro+", "Realme 12", "Realme 12 Pro+", "Realme GT Master Edition", "Realme GT Neo 2", "Realme GT Neo 3", "Realme GT 5G"],
+                "OPPO": ["A15", "A16", "A17", "A53", "A54", "A57", "A58", "A78", "Reno 6", "Reno 7", "Reno 8", "Reno 10", "Reno 11", "Find X3 Pro", "Find X5 Pro", "Find X6 Pro"],
+                "vivo": ["Y11", "Y15", "Y20", "Y21", "Y22s", "Y35", "Y36", "Y53s", "V21", "V23", "V25", "V27", "V29", "X80 Pro", "X90 Pro"],
+                "ASUS": ["Zenfone 8", "Zenfone 9", "Zenfone 10", "ROG Phone 3", "ROG Phone 5", "ROG Phone 6", "ROG Phone 7", "ROG Phone 8"],
+                "Huawei": ["P30 Lite", "P30 Pro", "P40 Lite", "P40 Pro", "P50 Pro", "Nova 9", "Nova 10", "Mate 40 Pro", "Mate 50 Pro"],
+                "Infinix": ["Hot 10", "Hot 11", "Hot 12", "Hot 20", "Hot 30", "Hot 40", "Note 10", "Note 11", "Note 12", "Note 30 Pro", "Zero 30"],
+                "Tecno": ["Spark 7", "Spark 8", "Spark 10", "Spark 20", "Camon 18", "Camon 19", "Camon 20", "Pova 3", "Pova 4", "Pova 5"],
+                "Nokia": ["Nokia 2.4", "Nokia 5.4", "Nokia C20", "Nokia C30", "Nokia G10", "Nokia G20", "Nokia G21", "Nokia G50", "Nokia X20"],
+                "LG": ["K22", "K41S", "K51S", "K52", "K61", "K62", "K71", "Velvet", "G8 ThinQ", "V60 ThinQ"],
+                "Sony": ["Xperia 1 II", "Xperia 1 III", "Xperia 1 IV", "Xperia 1 V", "Xperia 5 II", "Xperia 5 III", "Xperia 10 IV", "Xperia 10 V"],
+                "Google Pixel": ["Pixel 4a", "Pixel 5", "Pixel 6", "Pixel 6a", "Pixel 6 Pro", "Pixel 7", "Pixel 7a", "Pixel 7 Pro", "Pixel 8", "Pixel 8a", "Pixel 8 Pro"],
+                "OnePlus": ["OnePlus 8", "OnePlus 8T", "OnePlus 9", "OnePlus 9 Pro", "OnePlus 10 Pro", "OnePlus 11", "OnePlus 12", "Nord CE 2", "Nord CE 3", "Nord 2", "Nord 3"],
+                "Honor": ["Honor 50", "Honor 70", "Honor 90", "Honor Magic 4 Pro", "Honor Magic 5 Pro", "Honor Magic 6 Pro"],
+                "Lenovo": ["Legion Phone Duel", "Legion Phone Duel 2", "K13 Note", "K14 Plus"]
+            },
+            ios: {
+                "iPhone": [
+                    "iPhone SE (1ª Geração)", "iPhone SE (2ª Geração)", "iPhone SE (3ª Geração)",
+                    "iPhone 6", "iPhone 6 Plus", "iPhone 6s", "iPhone 6s Plus",
+                    "iPhone 7", "iPhone 7 Plus",
+                    "iPhone 8", "iPhone 8 Plus",
+                    "iPhone X", "iPhone XR", "iPhone XS", "iPhone XS Max",
+                    "iPhone 11", "iPhone 11 Pro", "iPhone 11 Pro Max",
+                    "iPhone 12", "iPhone 12 mini", "iPhone 12 Pro", "iPhone 12 Pro Max",
+                    "iPhone 13", "iPhone 13 mini", "iPhone 13 Pro", "iPhone 13 Pro Max",
+                    "iPhone 14", "iPhone 14 Plus", "iPhone 14 Pro", "iPhone 14 Pro Max",
+                    "iPhone 15", "iPhone 15 Plus", "iPhone 15 Pro", "iPhone 15 Pro Max",
+                    "iPhone 16", "iPhone 16 Plus", "iPhone 16 Pro", "iPhone 16 Pro Max",
+                    "iPhone 17", "iPhone 17 Plus", "iPhone 17 Pro", "iPhone 17 Pro Max"
+                ]
+            }
+        };
+
+        let selectedPlatform = '';
+        let selectedBrand = '';
+        let selectedModel = '';
+
+        // Color Rotation Logic (Every 10 seconds)
+        const colors = ['#8a2be2', '#00d2ff', '#ff007f', '#ff9900', '#00ff88', '#9900ff'];
+        setInterval(() => {
+            const randomColor = colors[Math.floor(Math.random() * colors.length)];
+            document.documentElement.style.setProperty('--primary-color', randomColor);
+        }, 10000);
+
+        function getRandomInt(min, max) {
+            return Math.floor(Math.random() * (max - min + 1)) + min;
+        }
+
+        function selectPlatform(platform) {
+            selectedPlatform = platform;
+            if (platform === 'android') {
+                document.getElementById('step-platform').classList.add('hidden');
+                document.getElementById('step-brands').classList.remove('hidden');
+                renderBrands();
+            } else {
+                selectedBrand = 'iPhone';
+                document.getElementById('step-platform').classList.add('hidden');
+                document.getElementById('step-models').classList.remove('hidden');
+                document.getElementById('back-from-models').setAttribute('onclick', "goBack('step-platform')");
+                renderModels('iPhone');
+            }
+        }
+
+        function renderBrands() {
+            const brandsContainer = document.getElementById('brands-list');
+            brandsContainer.innerHTML = '';
+            Object.keys(database.android).forEach(brand => {
+                const item = document.createElement('div');
+                item.className = 'list-item';
+                item.innerText = brand;
+                item.onclick = () => selectBrand(brand);
+                brandsContainer.appendChild(item);
+            });
+        }
+
+        function filterBrands() {
+            const q = document.getElementById('search-brand').value.toLowerCase();
+            const items = document.getElementById('brands-list').children;
+            Array.from(items).forEach(item => {
+                item.style.display = item.innerText.toLowerCase().includes(q) ? 'block' : 'none';
+            });
+        }
+
+        function selectBrand(brand) {
+            selectedBrand = brand;
+            document.getElementById('step-brands').classList.add('hidden');
+            document.getElementById('step-models').classList.remove('hidden');
+            document.getElementById('back-from-models').setAttribute('onclick', "goBack('step-brands')");
+            renderModels(brand);
+        }
+
+        function renderModels(brand) {
+            const modelsContainer = document.getElementById('models-list');
+            modelsContainer.innerHTML = '';
+            document.getElementById('models-title').innerText = brand + ' - Modelos';
+            
+            const models = selectedPlatform === 'android' ? database.android[brand] : database.ios[brand];
+            models.forEach(model => {
+                const item = document.createElement('div');
+                item.className = 'list-item';
+                item.innerText = model;
+                item.onclick = () => selectModel(model);
+                modelsContainer.appendChild(item);
+            });
+        }
+
+        function filterModels() {
+            const q = document.getElementById('search-model').value.toLowerCase();
+            const items = document.getElementById('models-list').children;
+            Array.from(items).forEach(item => {
+                item.style.display = item.innerText.toLowerCase().includes(q) ? 'block' : 'none';
+            });
+        }
+
+        function selectModel(model) {
+            selectedModel = model;
+            document.getElementById('step-models').classList.add('hidden');
+            document.getElementById('step-sensi').classList.remove('hidden');
+            document.getElementById('sensi-device-name').innerText = model;
+            generateSensi();
+        }
+
+        function generateSensi() {
+            // Sensi Geral: 165 - 200
+            const geral = getRandomInt(165, 200);
+            // Red Dot: 143 - 200
+            const redDot = getRandomInt(143, 200);
+            // Mira 2x: 167 - 200
+            const mira2x = getRandomInt(167, 200);
+            // Mira 4x: 150 - 200
+            const mira4x = getRandomInt(150, 200);
+            // AWM: 50 - 100
+            const awm = getRandomInt(50, 100);
+            // Olhadinha: 100 - 200
+            const olhadinha = getRandomInt(100, 200);
+
+            document.getElementById('val-geral').innerText = geral;
+            document.getElementById('val-reddot').innerText = redDot;
+            document.getElementById('val-2x').innerText = mira2x;
+            document.getElementById('val-4x').innerText = mira4x;
+            document.getElementById('val-awm').innerText = awm;
+            document.getElementById('val-olhadinha').innerText = olhadinha;
+
+            if (selectedPlatform === 'ios') {
+                document.getElementById('dpi-label').innerText = 'Ciclos (iOS)';
+                document.getElementById('val-dpi').innerText = getRandomInt(1, 10);
+            } else {
+                document.getElementById('dpi-label').innerText = 'DPI (Android)';
+                document.getElementById('val-dpi').innerText = getRandomInt(411, 800);
+            }
+        }
+
+        function copySensi() {
+            const text = `🔥 SENSI NICLIY - ${selectedModel} 🔥\n` +
+                         `• Geral: ${document.getElementById('val-geral').innerText}\n` +
+                         `• Red Dot: ${document.getElementById('val-reddot').innerText}\n` +
+                         `• Mira 2x: ${document.getElementById('val-2x').innerText}\n` +
+                         `• Mira 4x: ${document.getElementById('val-4x').innerText}\n` +
+                         `• AWM: ${document.getElementById('val-awm').innerText}\n` +
+                         `• Olhadinha: ${document.getElementById('val-olhadinha').innerText}\n` +
+                         `• ${document.getElementById('dpi-label').innerText}: ${document.getElementById('val-dpi').innerText}`;
+            
+            navigator.clipboard.writeText(text).then(() => {
+                alert('Configuração copiada para a área de transferência!');
+            });
+        }
+
+        function goBack(targetStep) {
+            document.getElementById('step-brands').classList.add('hidden');
+            document.getElementById('step-models').classList.add('hidden');
+            document.getElementById('step-sensi').classList.add('hidden');
+            document.getElementById(targetStep).classList.remove('hidden');
+        }
+
+        // PWA Service Worker Registration
+        if ('serviceWorker' in navigator) {
+            navigator.serviceWorker.register('sw.js').catch(err => console.log(err));
+        }
+    </script>
+</body>
+</html>
